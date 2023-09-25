@@ -76,7 +76,7 @@ fn main() {
         .cpp(true)
         .compile("sdw");
 
-    let src_files = get_cxx_files("src");
+    let src_files = get_cxx_files(src_path);
 
     cc::Build::new()
         .files(&src_files)
