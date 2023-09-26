@@ -1,0 +1,17 @@
+﻿---
+BasedOnStyle: LLVM
+AccessModifierOffset: '0'
+AllowShortBlocksOnASingleLine: 'false'
+AllowShortCaseLabelsOnASingleLine: 'false'
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: 'false'
+PackConstructorInitializers: Never
+BreakConstructorInitializers: AfterColon
+SpaceBeforeCtorInitializerColon: False
+ColumnLimit: '240'
+IndentWidth: '4'
+NamespaceIndentation: All
+TabWidth: '4'
+
+...

@@ -2,6 +2,10 @@ TARGET := RedNoise
 
 BUILD_DIR := build
 
+OUT_DIR := .
+
+TARGET_EXE := $(OUT_DIR)/$(TARGET)
+
 SRC_DIR := src
 SDW_DIR := libs/sdw
 GLM_DIR := libs/glm-0.9.7.2
@@ -13,19 +17,24 @@ OBJ_FILES := $(foreach f,$(SRC_FILES:.cpp=.cpp.o),$(BUILD_DIR)/$f) $(foreach f,$
 
 $(shell mkdir -p $(BUILD_DIR) $(foreach dir,$(SRC_DIR) $(SDW_DIR),$(BUILD_DIR)/$(dir)))
 
+$(shell mkdir -p $(OUT_DIR))
+
 INCFLAGS := -I$(SDW_DIR) -I$(GLM_DIR)
 SDLFLAGS := $(shell sdl2-config --cflags)
 SDL_LINK := $(shell sdl2-config --libs)
 
-$(TARGET): $(OBJ_FILES)
+$(TARGET_EXE): $(OBJ_FILES)
 	$(CXX) -o $@ $^ $(SDL_LINK)
 
 $(BUILD_DIR)/%.cpp.o: %.cpp
 	$(CXX) -c -o $@ $^ $(INCFLAGS) $(SDLFLAGS)
 
-all: $(TARGET)
+default: $(TARGET_EXE)
+
+run: $(TARGET_EXE)
+	$(TARGET_EXE)
 
 clean:
 	rm -rf $(BUILD_DIR)
 
-.PHONY: all, clean
+.PHONY: default, run, clean

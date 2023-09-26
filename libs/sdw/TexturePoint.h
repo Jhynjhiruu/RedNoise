@@ -3,11 +3,10 @@
 #include <iostream>
 
 struct TexturePoint {
-	float x{};
-	float y{};
+    float x{};
+    float y{};
 
-	TexturePoint();
-	TexturePoint(float xPos, float yPos);
-	friend std::ostream &operator<<(std::ostream &os, const TexturePoint &point);
+    TexturePoint();
+    TexturePoint(float xPos, float yPos);
+    friend std::ostream &operator<<(std::ostream &os, const TexturePoint &point);
 };
-
