@@ -18,6 +18,14 @@ OUT_DIR := {out_dir}
 
 TARGET_EXE := $(OUT_DIR)/$(TARGET)
 
+ifneq ($(GCC_PREFIX),)
+	CXX := $(GCC_PREFIX)/bin/g++
+	RPATH := -Wl,-rpath,
+	LINK_SUFFIX := $(patsubst %,$(RPATH)$(GCC_PREFIX)/%,lib64 lib)
+else
+	LINK_SUFFIX :=
+endif
+
 SRC_DIR := {}
 SDW_DIR := {}
 GLM_DIR := {}
@@ -37,7 +45,7 @@ SDLFLAGS := $(shell sdl2-config --cflags)
 SDL_LINK := $(shell sdl2-config --libs)
 
 $(TARGET_EXE): $(OBJ_FILES)
-    $(CXX) -o $@ $^ $(SDL_LINK)
+    $(CXX) -o $@ $^ $(SDL_LINK) $(LINK_SUFFIX)
 
 $(BUILD_DIR)/%.cpp.o: %.cpp
     $(CXX) -c -o $@ $^ $(INCFLAGS) $(SDLFLAGS)
@@ -87,6 +95,7 @@ fn main() {
         .includes(includes)
         .link_lib_modifier("+whole-archive")
         .cpp(true)
+        .std("c++20")
         .compile("sdw");
 
     let src_files = get_cxx_files(&src_path);
@@ -96,6 +105,7 @@ fn main() {
         .includes(includes)
         .define("__CARGO__", None)
         .cpp(true)
+        .std("c++20")
         .compile("_cxx");
 
     for file in &src_files {

@@ -6,6 +6,14 @@ OUT_DIR := .
 
 TARGET_EXE := $(OUT_DIR)/$(TARGET)
 
+ifneq ($(GCC_PREFIX),)
+	CXX := $(GCC_PREFIX)/bin/g++
+	RPATH := -Wl,-rpath,
+	LINK_SUFFIX := $(patsubst %,$(RPATH)$(GCC_PREFIX)/%,lib64 lib)
+else
+	LINK_SUFFIX :=
+endif
+
 SRC_DIR := src
 SDW_DIR := libs/sdw
 GLM_DIR := libs/glm-0.9.7.2
@@ -24,7 +32,7 @@ SDLFLAGS := $(shell sdl2-config --cflags)
 SDL_LINK := $(shell sdl2-config --libs)
 
 $(TARGET_EXE): $(OBJ_FILES)
-	$(CXX) -o $@ $^ $(SDL_LINK)
+	$(CXX) -o $@ $^ $(SDL_LINK) $(LINK_SUFFIX)
 
 $(BUILD_DIR)/%.cpp.o: %.cpp
 	$(CXX) -c -o $@ $^ $(INCFLAGS) $(SDLFLAGS)
